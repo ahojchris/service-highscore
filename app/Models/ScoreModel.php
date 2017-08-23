@@ -96,7 +96,7 @@ class ScoreModel extends Model
 	//List the top 10 players who improved their score over the course of the week
 	//(the difference between the high score they posted last week and their high score this week).
 	//You can assume the week ends Sunday at midnight.
-	function getMostImproved($period1_start, $period1_end, $period2_start, $period2_end)
+	function getMostImproved() //$period1_start, $period1_end, $period2_start, $period2_end
 	{
 		$subquery_1 = "SELECT fb_user_id, MAX(score) AS highscore FROM scores WHERE created_at > '2017-08-20 00:00:00' AND created_at < '2017-08-23 01:28:00' GROUP BY fb_user_id ORDER BY score DESC";
 		$subquery_2 = "SELECT fb_user_id, MAX(score) AS highscore FROM scores WHERE created_at > '2017-08-13 00:00:00' AND created_at < '2017-08-20 00:00:00' GROUP BY fb_user_id ORDER BY score DESC";

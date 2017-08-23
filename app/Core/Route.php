@@ -4,11 +4,13 @@ namespace App\Core;
 
 use App\Controllers;
 use App\Core\Request;
+use App\Core\Config;
 
 class Route
 {
-	static function connect(Request $request, $routes)
+	static function connect(Request $request)
 	{
+		$routes = Config::get('ROUTES');
 		$controller_namespace = 'App\Controllers\\';
 
 		// defailt controller and actiom

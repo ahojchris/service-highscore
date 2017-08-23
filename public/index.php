@@ -1,15 +1,12 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../app/bootstrap.php';
 
 use App\Core\Request;
 use App\Core\Route;
 
-require __DIR__ . '/../config/common.php';
-$routes  = include(__DIR__ . '/../config/routes.php'); //TODO do this a better way
-$db_config  = include(__DIR__ . '/../config/db.php'); //TODO do this a better way
 
-Route::connect(new Request, $routes);
+Route::connect(new Request);
 
 
 //////////////////////
@@ -22,3 +19,4 @@ Route::connect(new Request, $routes);
 //TODO getMostImproved wire up dates
 //TODO spin up RDS instance
 //TODO spin up elastic-beanstalk instance
+//TODO Fix how we handle environment vars for db, etc

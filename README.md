@@ -64,7 +64,6 @@ GET  /report/improved
 All reports above combined:
 ```
 GET  /report
-
  ```
 
 # Reference Data

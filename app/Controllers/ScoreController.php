@@ -7,23 +7,9 @@ use App\Core\Request;
 use App\Core\FaceookSignedRequest;
 use App\Models;
 use App\Core\Validator;
-use \DateTime;
 
 class ScoreController extends Controller
 {
-	function index(Request $request)
-	{
-//		$this->model = new Models\ScoreModel;
-//
-//		$data['played_today'] = $this->model->getUniquePlayersSince(new DateTime("today"));
-//		$data['played_all_time'] = $this->model->getUniquePlayersAllTime();
-//		$data['top_players'] = $this->model->getTopPlayers(10);
-//		$data['most_improved'] = $this->model->getMostImproved();
-//
-//
-//		$this->view->data($data);
-	}
-
 	function store(Request $request)
 	{
 		$output = [];
@@ -72,24 +58,6 @@ class ScoreController extends Controller
 		$this->view->data($result);
 
 		return true;
-	}
-
-
-	function put(Request $request)
-	{
-		echo 'put()';
-	}
-
-
-	function delete(Request $request)
-	{
-		echo 'delete()';
-	}
-
-
-	function seed(Request $request)
-	{
-		//
 	}
 
 }

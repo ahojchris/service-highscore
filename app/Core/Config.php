@@ -7,11 +7,13 @@ class Config
 
 	protected static $config = [];
 
-	private function __construct() {}
+	private function __construct()
+	{
+	}
 
 	public static function set($key, $val)
 	{
-			self::$config[$key] = $val;
+		self::$config[$key] = $val;
 	}
 
 	public static function get($key)

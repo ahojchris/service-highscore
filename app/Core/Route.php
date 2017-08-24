@@ -10,7 +10,7 @@ class Route
 {
 	static function connect(Request $request)
 	{
-		$routes = Config::get('ROUTES');
+		$routes               = Config::get('ROUTES');
 		$controller_namespace = 'App\Controllers\\';
 
 		// defailt controller and actiom

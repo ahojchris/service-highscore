@@ -16,13 +16,10 @@ class SeederController extends Controller
 	{
 		$this->model = new Models\ScoreModel;
 		$this->model->truncate();
-		//TRUNCATE TABLE scores
-
 	}
 
 	public function generateTestData(Request $request)
 	{
-
 		//validate  user_score defined
 		if (!isset($request->post_vars['num']) || !Validator::notEmpty($request->post_vars['num'])) {
 			$this->view->error('num is required');
@@ -44,11 +41,11 @@ class SeederController extends Controller
 			$this->resetDB();
 
 			$chunk_size = 1000;
-			$uid_limit  = $chunk_size/rand(30, 70);
+			$uid_limit  = $chunk_size / rand(30, 70);
 			$uids       = $this->generateFbUserIdArray($uid_limit);
 
-			$score['min']  = 1;
-			$score['max']  = 1000000;
+			$score['min'] = 1;
+			$score['max'] = 1000000;
 
 			$rows = [];
 			for ($i = 0; $i < $num_rows; $i++) {
@@ -56,7 +53,7 @@ class SeederController extends Controller
 				if (count($rows) > $chunk_size - 1) {
 					$this->model->insertScoreMany($rows);
 					$rows      = [];
-					$uid_limit  = $chunk_size/rand(30, 70);
+					$uid_limit = $chunk_size / rand(30, 70);
 					$uids      = $this->generateFbUserIdArray($uid_limit);
 
 				}
@@ -85,11 +82,10 @@ class SeederController extends Controller
 
 	private function generateRandomScore($min, $max)
 	{
-
 		//skew a bit to the right
-		$discounted_max = floor($max/(rand(1, 2)));
+		$discounted_max = floor($max / (rand(1, 2)));
 
-		return Helper::generatePureBellNumber($min, $discounted_max, $discounted_max/10);
+		return Helper::generatePureBellNumber($min, $discounted_max, $discounted_max / 10);
 	}
 
 	private function generateFbUserIdArray($size)

@@ -10,7 +10,7 @@ class DefaultController extends Controller
 {
     function index()
     {
-        echo 'DefaultController';
+        echo 'High-score service';
         //var_dump(func_num_args());
         //var_dump(func_get_args());
 

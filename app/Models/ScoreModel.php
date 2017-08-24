@@ -32,26 +32,19 @@ class ScoreModel extends Model
 
 	function insertScoreMany($rows)
 	{
-		$sql = "INSERT INTO scores (fb_user_id, score, created_at) VALUES ";
-
+		$sql       = "INSERT INTO scores (fb_user_id, score, created_at) VALUES ";
 		$param_arr = [];
-
-		$sql_arr = [];
-
+		$sql_arr   = [];
 		foreach ($rows as $row) {
 			$sql_arr[] = '(' . implode(',', array_fill(0, count($row), '?')) . ')';
-
 			foreach ($row as $element) {
 				$param_arr[] = $element;
 			}
 		}
-
 		$sql .= implode(',', $sql_arr);
-
 		$handle = $this->db->prepare($sql);
 
 		return $handle->execute($param_arr);
-
 	}
 
 
@@ -72,7 +65,6 @@ class ScoreModel extends Model
 
 //		return $result = $handle->fetchAll(PDO::FETCH_CLASS);
 		return $handle->fetchColumn();
-
 	}
 
 	//How many total players are there?
@@ -82,7 +74,7 @@ class ScoreModel extends Model
 	}
 
 	//List the top 10 players (by score)
-	function getTopPlayers($limit)
+	function getPlayersTop($limit)
 	{
 		$sql    = "SELECT fb_user_id, MAX(score) AS score FROM scores GROUP BY fb_user_id ORDER BY score DESC LIMIT :limit";
 		$handle = $this->db->prepare($sql);
@@ -90,26 +82,29 @@ class ScoreModel extends Model
 		$handle->execute();
 
 		return $handle->fetchAll();
-
 	}
 
 	//List the top 10 players who improved their score over the course of the week
 	//(the difference between the high score they posted last week and their high score this week).
 	//You can assume the week ends Sunday at midnight.
-	function getMostImproved() //$period1_start, $period1_end, $period2_start, $period2_end
+	function getPlayersMostImproved(DateTime $date1, DateTime $date2, $limit)
 	{
-		$subquery_1 = "SELECT fb_user_id, MAX(score) AS highscore FROM scores WHERE created_at > '2017-08-20 00:00:00' AND created_at < '2017-08-23 01:28:00' GROUP BY fb_user_id ORDER BY score DESC";
-		$subquery_2 = "SELECT fb_user_id, MAX(score) AS highscore FROM scores WHERE created_at > '2017-08-13 00:00:00' AND created_at < '2017-08-20 00:00:00' GROUP BY fb_user_id ORDER BY score DESC";
+		$date_format = 'Y-m-d H:i:s';
+		$subquery_1  = "SELECT fb_user_id, MAX(score) AS highscore FROM scores WHERE created_at > :d2a GROUP BY fb_user_id ORDER BY score DESC";
+		$subquery_2  = "SELECT fb_user_id, MAX(score) AS highscore FROM scores WHERE created_at > :d1 AND created_at < :d2b GROUP BY fb_user_id ORDER BY score DESC";
 
 		$sql = "SELECT Period1.fb_user_id, Period1.highscore AS highscore_last_week, Period2.highscore AS highscore_this_week, (Period2.highscore - Period1.highscore) AS delta ";
 		$sql .= "FROM ($subquery_1) Period1 ";
 		$sql .= "INNER JOIN ($subquery_2) Period2 ";
-		$sql .= "ON Period1.fb_user_id = Period2.fb_user_id ORDER BY delta DESC LIMIT 10";
+		$sql .= "ON Period1.fb_user_id = Period2.fb_user_id ORDER BY delta DESC LIMIT :limit";
 		$handle = $this->db->prepare($sql);
+		$handle->bindValue(':d1', $date1->format($date_format), PDO::PARAM_STR);
+		$handle->bindValue(':d2a', $date2->format($date_format), PDO::PARAM_STR);
+		$handle->bindValue(':d2b', $date2->format($date_format), PDO::PARAM_STR);
+		$handle->bindValue(':limit', $limit, PDO::PARAM_INT);
 		$handle->execute();
 
 		return $handle->fetchAll();
-
 	}
 
 

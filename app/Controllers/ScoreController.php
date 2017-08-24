@@ -13,17 +13,15 @@ class ScoreController extends Controller
 {
 	function index(Request $request)
 	{
-
-
-		$this->model = new Models\ScoreModel;
-
-		$data['played_today'] = $this->model->getUniquePlayersSince(new DateTime("today"));
-		$data['played_all_time'] = $this->model->getUniquePlayersAllTime();
-		$data['top_players'] = $this->model->getTopPlayers(10);
-		$data['most_improved'] = $this->model->getMostImproved();
-
-
-		$this->view->data($data);
+//		$this->model = new Models\ScoreModel;
+//
+//		$data['played_today'] = $this->model->getUniquePlayersSince(new DateTime("today"));
+//		$data['played_all_time'] = $this->model->getUniquePlayersAllTime();
+//		$data['top_players'] = $this->model->getTopPlayers(10);
+//		$data['most_improved'] = $this->model->getMostImproved();
+//
+//
+//		$this->view->data($data);
 	}
 
 	function store(Request $request)

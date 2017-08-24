@@ -5,8 +5,13 @@ Config::set('ROUTES', [
 	'GET'    => [
 		'default'       => ['controller' => 'DefaultController', 'action' => 'index'],
 		'default/index' => ['controller' => 'DefaultController', 'action' => 'index'],
-		'score'         => ['controller' => 'ScoreController', 'action' => 'index'],
-		'score/index'   => ['controller' => 'ScoreController', 'action' => 'index'],
+//		'score'         => ['controller' => 'ScoreController', 'action' => 'index'],
+//		'score/index'   => ['controller' => 'ScoreController', 'action' => 'index'],
+		'player-report'         => ['controller' => 'ReportController', 'action' => 'index'],
+		'player-report/index'   => ['controller' => 'ReportController', 'action' => 'index'],
+		'player-report/totals'   => ['controller' => 'ReportController', 'action' => 'totals'],
+		'player-report/top'   => ['controller' => 'ReportController', 'action' => 'top'],
+		'player-report/improved'   => ['controller' => 'ReportController', 'action' => 'improved'],
 	],
 	'POST'   => [
 		'score'       => ['controller' => 'ScoreController', 'action' => 'store'],

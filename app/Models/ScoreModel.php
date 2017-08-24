@@ -6,9 +6,19 @@ use App\Core\Model;
 use \PDO;
 use \DateTime;
 
+/**
+ * Class ScoreModel
+ * @package App\Models
+ */
 class ScoreModel extends Model
 {
 
+    /**
+     * @param $fb_user_id
+     * @param $score
+     *
+     * @return mixed
+     */
     function insertScore($fb_user_id, $score)
     {
         $handle = $this->db->prepare('INSERT INTO scores (fb_user_id, score, created_at, updated_at) VALUES (:fb_user_id, :score, NOW(), NOW())');
@@ -21,6 +31,11 @@ class ScoreModel extends Model
         return $this->getScoreById($score_id);
     }
 
+    /**
+     * @param $id
+     *
+     * @return mixed
+     */
     function getScoreById($id)
     {
         $handle = $this->db->prepare("SELECT * FROM scores WHERE id=:id");
@@ -30,6 +45,11 @@ class ScoreModel extends Model
         return $handle->fetchObject();
     }
 
+    /**
+     * @param $rows
+     *
+     * @return bool
+     */
     function insertScoreMany($rows)
     {
         $sql       = "INSERT INTO scores (fb_user_id, score, created_at, updated_at) VALUES ";
@@ -48,7 +68,11 @@ class ScoreModel extends Model
     }
 
 
-    //How many people played the game today?
+    /**
+     * @param DateTime|null $date
+     *
+     * @return string
+     */
     function getUniquePlayersSince(DateTime $date = null)
     {
         $sql = "SELECT COUNT(DISTINCT fb_user_id) FROM scores";
@@ -63,17 +87,22 @@ class ScoreModel extends Model
         }
         $handle->execute();
 
-//		return $result = $handle->fetchAll(PDO::FETCH_CLASS);
         return $handle->fetchColumn();
     }
 
-    //How many total players are there?
+    /**
+     * @return string
+     */
     function getUniquePlayersAllTime()
     {
         return $this->getUniquePlayersSince();
     }
 
-    //List the top 10 players (by score)
+    /**
+     * @param $limit
+     *
+     * @return array
+     */
     function getPlayersTop($limit)
     {
         $sql    = "SELECT fb_user_id, MAX(score) AS highscore FROM scores GROUP BY fb_user_id ORDER BY highscore DESC LIMIT :limit";
@@ -84,9 +113,13 @@ class ScoreModel extends Model
         return $handle->fetchAll();
     }
 
-    //List the top 10 players who improved their score over the course of the week
-    //(the difference between the high score they posted last week and their high score this week).
-    //You can assume the week ends Sunday at midnight.
+    /**
+     * @param DateTime $date1
+     * @param DateTime $date2
+     * @param          $limit
+     *
+     * @return array
+     */
     function getPlayersMostImproved(DateTime $date1, DateTime $date2, $limit)
     {
         $date_format = 'Y-m-d H:i:s';

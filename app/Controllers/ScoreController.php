@@ -3,14 +3,22 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Core\Request;
 use App\Core\FaceookSignedRequest;
 use App\Models;
 use App\Core\Validator;
 
+/**
+ * Class ScoreController
+ * @package App\Controllers
+ */
 class ScoreController extends Controller
 {
 
+	/**
+	 * @param $params
+	 *
+	 * @return bool
+     */
     function store($params)
     {
         //$params = ['signed_request' => 'SIGNED_REQUEST', user_score => 'SCORE']

@@ -2,8 +2,20 @@
 
 Namespace App\Core;
 
+/**
+ * Class Helper
+ * @package App\Core
+ */
 class Helper
 {
+	/**
+	 * @param     $min
+	 * @param     $max
+	 * @param     $std_deviation
+	 * @param int $step
+	 *
+	 * @return float
+     */
     static function generatePureBellNumber($min, $max, $std_deviation, $step = 1)
     {
         $rand1           = (float)mt_rand() / (float)mt_getrandmax();

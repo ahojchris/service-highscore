@@ -3,12 +3,15 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Core\Request;
 use App\Core\Helper;
 use App\Models;
 use App\Core\Validator;
 use \DateTime;
 
+/**
+ * Class SeederController
+ * @package App\Controllers
+ */
 class SeederController extends Controller
 {
 
@@ -18,6 +21,11 @@ class SeederController extends Controller
         $this->model->truncate();
     }
 
+    /**
+     * @param array $params
+     *
+     * @return bool
+     */
     public function generateTestData($params = ['num' => 1000000])
     {
         //validate  user_score defined
@@ -80,6 +88,12 @@ class SeederController extends Controller
     }
 
 
+    /**
+     * @param $min
+     * @param $max
+     *
+     * @return float
+     */
     private function generateRandomScore($min, $max)
     {
         //skew a bit to the right
@@ -88,6 +102,11 @@ class SeederController extends Controller
         return Helper::generatePureBellNumber($min, $discounted_max, $discounted_max / 10);
     }
 
+    /**
+     * @param $size
+     *
+     * @return array
+     */
     private function generateFbUserIdArray($size)
     {
         $ids = [];
@@ -98,6 +117,9 @@ class SeederController extends Controller
         return $ids;
     }
 
+    /**
+     * @return string
+     */
     private function generateFbUserId()
     {
         $num = rand(1, 999999999);

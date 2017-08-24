@@ -4,12 +4,19 @@ namespace App\Core;
 
 use \PDO;
 
+/**
+ * Class Model
+ * @package App\Core
+ */
 class Model
 {
 
     protected $db;
 
-    function __construct()
+	/**
+	 * Model constructor.
+     */
+	function __construct()
     {
 
         $params = [

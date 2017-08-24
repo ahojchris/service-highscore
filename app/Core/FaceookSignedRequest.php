@@ -2,6 +2,10 @@
 
 namespace App\Core;
 
+/**
+ * Class FaceookSignedRequest
+ * @package App\Core
+ */
 class FaceookSignedRequest
 {
 
@@ -10,13 +14,21 @@ class FaceookSignedRequest
 
     var $secret;
 
+	/**
+	 * FaceookSignedRequest constructor.
+	 *
+	 * @param $signed_request_raw
+     */
     function __construct($signed_request_raw)
     {
         $this->signed_request_raw = $signed_request_raw;
         $this->secret             = Config::get('FB_APP_SECRET');
     }
 
-    public function parse()
+	/**
+	 * @return mixed|null
+     */
+	public function parse()
     {
         list($encoded_sig, $payload) = explode('.', $this->signed_request_raw, 2);
 
@@ -35,6 +47,11 @@ class FaceookSignedRequest
         return $data;
     }
 
+	/**
+	 * @param $input
+	 *
+	 * @return string
+     */
     private function base64UrlDecode($input)
     {
         return base64_decode(strtr($input, '-_', '+/'));

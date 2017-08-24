@@ -3,9 +3,12 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Core\Request;
 
 
+/**
+ * Class DefaultController
+ * @package App\Controllers
+ */
 class DefaultController extends Controller
 {
     function index()

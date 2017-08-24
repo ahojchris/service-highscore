@@ -4,8 +4,15 @@ namespace App\Core;
 
 use App\Controllers;
 
+/**
+ * Class Router
+ * @package App\Core
+ */
 class Router
 {
+    /**
+     * @param Request $request
+     */
     static function route(Request $request)
     {
         $routes = Config::get('routes');
@@ -46,7 +53,7 @@ class Router
             $controller = new $controller_classname_ns;
         } else {
             Router::Error404();
-            log_error("Controller not found: $controller_classname_ns");
+            error_log("Controller not found: $controller_classname_ns");
             exit;
         }
 
@@ -68,7 +75,7 @@ class Router
                     break;
                 default:
                     Router::Error404();
-                    log_error("Invalid request method: " . $request->method);
+                    error_log("Invalid request method: " . $request->method);
                     exit;
 
                     break;
@@ -77,7 +84,7 @@ class Router
 
         } else {
             Router::Error404();
-            log_error("Action not found: $controller_action in: $controller_classname_ns");
+            error_log("Action not found: $controller_action in: $controller_classname_ns");
             exit;
         }
 

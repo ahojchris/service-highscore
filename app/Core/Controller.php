@@ -2,13 +2,20 @@
 
 namespace App\Core;
 
+/**
+ * Class Controller
+ * @package App\Core
+ */
 class Controller
 {
 
     public $model;
     public $view;
 
-    function __construct()
+	/**
+	 * Controller constructor.
+     */
+	function __construct()
     {
         $this->view = new View();
     }

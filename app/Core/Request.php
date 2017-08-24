@@ -2,6 +2,10 @@
 
 namespace App\Core;
 
+/**
+ * Class Request
+ * @package App\Core
+ */
 class Request
 {
     var $method;
@@ -10,6 +14,9 @@ class Request
     var $path_params;
     var $post_vars;
 
+    /**
+     * Request constructor.
+     */
     function __construct()
     {
         $this->method     = $_SERVER['REQUEST_METHOD'];
@@ -23,11 +30,21 @@ class Request
         array_walk($this->post_vars, [$this, 'filterSanitizeString']);
     }
 
+    /**
+     * @param $string
+     *
+     * @return mixed
+     */
     private function filterPath(&$string)
     {
         return preg_replace("/[^A-Za-z0-9_\-\/]/", '', $string);
     }
 
+    /**
+     * @param $string
+     *
+     * @return mixed
+     */
     private function filterSanitizeString(&$string)
     {
         return filter_var($string, FILTER_SANITIZE_STRING);

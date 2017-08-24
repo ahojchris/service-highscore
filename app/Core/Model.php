@@ -17,12 +17,8 @@ class Model
 			PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
 			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ];
 
-		$config = ['dsn'      => 'mysql:host=' . Config::get('DB_HOST') . ';dbname=' . Config::get('DB_NAME') . ';charset=utf8mb4',
-				   'username' => Config::get('DB_USER'),
-				   'password' => Config::get('DB_PASSWORD'),
-		];
-
-		$this->db = new PDO($config['dsn'], $config['username'], $config['password'], $params);
+		$dsn = 'mysql:host=' . Config::get('DB_HOST') . ';dbname=' . Config::get('DB_NAME') . ';charset=utf8mb4';
+		$this->db = new PDO($dsn, Config::get('DB_USER'), Config::get('DB_PASSWORD'), $params);
 
 	}
 

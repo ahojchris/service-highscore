@@ -13,7 +13,9 @@ class Controller
 		$this->view = new View();
 	}
 
-	function index(Request $request)
+	function index()
 	{
 	}
+
+
 }

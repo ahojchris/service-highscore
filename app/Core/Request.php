@@ -4,37 +4,33 @@ namespace App\Core;
 
 class Request
 {
-
 	var $method;
 	var $parsed_url;
-	var $path_raw;
 	var $path;
-	var $path_vars;
+	var $path_params;
 	var $post_vars;
 
 	function __construct()
 	{
 		$this->method     = $_SERVER['REQUEST_METHOD'];
 		$this->parsed_url = parse_url($_SERVER['REQUEST_URI']);
-		$this->path_raw   = $this->parsed_url['path'];
-		$this->path       = $this->filterPath(trim($this->path_raw, '/'));
-		$this->path_vars  = $this->filterPathArray(explode('/', $this->path));
-		$this->post_vars  = $_POST; //TODO sanitize this
+		$this->path       = trim($this->parsed_url['path'], '/');
+
+		$this->path_params = explode('/', $this->path);
+		array_walk($this->path_params, [$this, 'filterPath']);
+
+		$this->post_vars = $_POST;
+		array_walk($this->post_vars, [$this, 'filterSanitizeString']);
 	}
 
-	private function filterPath($string)
+	private function filterPath(&$string)
 	{
 		return preg_replace("/[^A-Za-z0-9_\-\/]/", '', $string);
 	}
 
-	private function filterPathArray($vars_raw)
+	private function filterSanitizeString(&$string)
 	{
-		$vars_filtered = [];
-		foreach ($vars_raw as $k => $var_raw) {
-			$vars_filtered[$k] = $this->filterPath($var_raw);
-		}
-
-		return $vars_filtered;
+		return filter_var($string, FILTER_SANITIZE_STRING);
 	}
 
 }

@@ -9,7 +9,7 @@ use \DateTime;
 
 class ReportController extends Controller
 {
-	function index(Request $request)
+	function index()
 	{
 		$limit                    = 10;
 		$this->model              = new Models\ScoreModel;
@@ -21,7 +21,7 @@ class ReportController extends Controller
 		$this->view->data($data);
 	}
 
-	function totals(Request $request)
+	function totals()
 	{
 		$this->model           = new Models\ScoreModel;
 		$data['players_today'] = $this->model->getUniquePlayersSince(new DateTime("today"));
@@ -30,16 +30,16 @@ class ReportController extends Controller
 		$this->view->data($data);
 	}
 
-	function top(Request $request)
+	function top($limit = 10)
 	{
-		$limit               = 10;
+		//$limit               = 10;
 		$this->model         = new Models\ScoreModel;
 		$data['players_top'] = $this->model->getPlayersTop($limit);
 
 		$this->view->data($data);
 	}
 
-	function improved(Request $request)
+	function improved()
 	{
 		$limit                    = 10;
 		$this->model              = new Models\ScoreModel;

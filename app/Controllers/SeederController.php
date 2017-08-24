@@ -17,25 +17,25 @@ class SeederController extends Controller
 		$this->model = new Models\ScoreModel;
 		$this->model->truncate();
 	}
-
-	public function generateTestData(Request $request)
+	
+	public function generateTestData($params = ['num' => 1000000])
 	{
 		//validate  user_score defined
-		if (!isset($request->post_vars['num']) || !Validator::notEmpty($request->post_vars['num'])) {
+		if (!isset($params['num']) || !Validator::notEmpty($params['num'])) {
 			$this->view->error('num is required');
 
 			return false;
 		}
 
-		if (!Validator::numbersOnly($request->post_vars['num'])) {
+		if (!Validator::numbersOnly($params['num'])) {
 			$this->view->error('num must be an interger');
 
 			return false;
 		} else {
 
-			$num_rows = $request->post_vars['num'];
+			$num_rows = $params['num'];
 
-			//TODO filter $request->post_vars['num'] a bit more
+			//TODO filter $params['num'] a bit more
 			$this->model = new Models\ScoreModel;
 
 			$this->resetDB();

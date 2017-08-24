@@ -90,13 +90,15 @@ class ScoreModel extends Model
 	function getPlayersMostImproved(DateTime $date1, DateTime $date2, $limit)
 	{
 		$date_format = 'Y-m-d H:i:s';
+		
 		$subquery_1  = "SELECT fb_user_id, MAX(score) AS highscore FROM scores WHERE created_at > :d2a GROUP BY fb_user_id ORDER BY score DESC";
 		$subquery_2  = "SELECT fb_user_id, MAX(score) AS highscore FROM scores WHERE created_at > :d1 AND created_at < :d2b GROUP BY fb_user_id ORDER BY score DESC";
-
+		
 		$sql = "SELECT Period1.fb_user_id, Period1.highscore AS highscore_last_week, Period2.highscore AS highscore_this_week, (Period2.highscore - Period1.highscore) AS delta ";
 		$sql .= "FROM ($subquery_1) Period1 ";
 		$sql .= "INNER JOIN ($subquery_2) Period2 ";
 		$sql .= "ON Period1.fb_user_id = Period2.fb_user_id ORDER BY delta DESC LIMIT :limit";
+
 		$handle = $this->db->prepare($sql);
 		$handle->bindValue(':d1', $date1->format($date_format), PDO::PARAM_STR);
 		$handle->bindValue(':d2a', $date2->format($date_format), PDO::PARAM_STR);

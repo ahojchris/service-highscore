@@ -1,7 +1,7 @@
 <?php
 use App\Core\Config;
 
-Config::set('ROUTES', [
+Config::set('routes', [
 	'GET'    => [
 		'report'          => ['controller' => 'ReportController', 'action' => 'index'],
 		'report/index'    => ['controller' => 'ReportController', 'action' => 'index'],

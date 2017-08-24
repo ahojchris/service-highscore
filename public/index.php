@@ -3,20 +3,17 @@
 require __DIR__ . '/../app/bootstrap.php';
 
 use App\Core\Request;
-use App\Core\Route;
+use App\Core\Router;
 
 
-Route::connect(new Request);
+Router::route(new Request);
 
 
 //////////////////////
 // TODOS /////////////
 //////////////////////
 
-//TODO Fix how we handle handle controller args
 //TODO Create users table and integrate with scores
-//TODO eb display_errors Off
-
 
 /*
 README
@@ -24,6 +21,11 @@ README
 POST /seeder num
 POST /score signed_request, user_score
 
+GET /report/totals
+GET /report/top
+GET /report/top/50
+GET /report/improved
+GET /report
 
 
 

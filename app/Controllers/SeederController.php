@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Core\Request;
+use App\Core\Helper;
 use App\Models;
 use App\Core\Validator;
-use App\Core\Helper;
 use \DateTime;
 
 class SeederController extends Controller
@@ -61,7 +61,7 @@ class SeederController extends Controller
 
 				}
 
-				$seconds     = rand(1, 90 * 24 * 60 * 60); //30 days
+				$seconds     = rand(1, 30 * 24 * 60 * 60); //30 days
 				$date_format = 'Y-m-d H:i:s';
 
 				//more efficient but uses old date functions

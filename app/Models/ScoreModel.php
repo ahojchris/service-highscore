@@ -76,7 +76,7 @@ class ScoreModel extends Model
 	//List the top 10 players (by score)
 	function getPlayersTop($limit)
 	{
-		$sql    = "SELECT fb_user_id, MAX(score) AS score FROM scores GROUP BY fb_user_id ORDER BY score DESC LIMIT :limit";
+		$sql    = "SELECT fb_user_id, MAX(score) AS highscore FROM scores GROUP BY fb_user_id ORDER BY score DESC LIMIT :limit";
 		$handle = $this->db->prepare($sql);
 		$handle->bindValue(':limit', $limit, PDO::PARAM_INT);
 		$handle->execute();

@@ -65,7 +65,7 @@ class SeederController extends Controller
                 //$timestamp = mt_rand(time() - $seconds, time());
                 //$rows[] = [$uids[rand(0, $uid_limit - 1)], $i + 1, date($date_format, $timestamp)];
                 $date   = new DateTime("-$seconds seconds");
-                $rows[] = [$uids[rand(0, $uid_limit - 1)], $this->generateRandomScore($score['min'], $score['max']), $date->format($date_format)];
+                $rows[] = [$uids[rand(0, $uid_limit - 1)], $this->generateRandomScore($score['min'], $score['max']), $date->format($date_format), $date->format($date_format)];
             }
             if (count($rows) > 0) {
                 //final insert for remaining rows in final chunk

@@ -32,7 +32,7 @@ class ScoreModel extends Model
 
     function insertScoreMany($rows)
     {
-        $sql       = "INSERT INTO scores (fb_user_id, score, created_at) VALUES ";
+        $sql       = "INSERT INTO scores (fb_user_id, score, created_at, updated_at) VALUES ";
         $param_arr = [];
         $sql_arr   = [];
         foreach ($rows as $row) {

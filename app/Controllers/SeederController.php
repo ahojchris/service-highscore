@@ -43,7 +43,7 @@ class SeederController extends Controller
 
 			$this->resetDB();
 
-			$chunk_size = 5000;
+			$chunk_size = 2000;
 			$uid_limit  = $chunk_size / rand(100, 400);
 			$uids       = $this->generateFbUserIdArray($uid_limit);
 

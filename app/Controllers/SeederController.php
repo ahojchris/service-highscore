@@ -44,7 +44,7 @@ class SeederController extends Controller
 			$this->resetDB();
 
 			$chunk_size = 1000;
-			$uid_limit  = $chunk_size / rand(100, 400);
+			$uid_limit  = $chunk_size/rand(30, 70);
 			$uids       = $this->generateFbUserIdArray($uid_limit);
 
 			$score['min']  = 1;
@@ -56,12 +56,12 @@ class SeederController extends Controller
 				if (count($rows) > $chunk_size - 1) {
 					$this->model->insertScoreMany($rows);
 					$rows      = [];
-					$uid_limit = $chunk_size / rand(100, 400);
+					$uid_limit  = $chunk_size/rand(30, 70);
 					$uids      = $this->generateFbUserIdArray($uid_limit);
 
 				}
 
-				$seconds     = rand(1, 30 * 24 * 60 * 60); //30 days
+				$seconds     = rand(1, 90 * 24 * 60 * 60); //90 days
 				$date_format = 'Y-m-d H:i:s';
 
 				//more efficient but uses old date functions

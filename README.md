@@ -101,4 +101,4 @@ The encoded signed_request above contains the following data:
 ```
 
 # To Dos
-Due to time constraints, this version only uses a single `scores` table to handle score records. A future version would include a `users` table containing at minimum `fname`, `lname`, and `fb_user_id`, fields , while removing `fb_user_id` and adding `user_id` to the `scores` table. New scores would begin with a select in the users table to get the user id from the fb_user_id, then an insert to scores with the user_id. Final reports would include a left outer join with `users` on user.id = scores.user_id, or something similar.
+Due to time constraints, this version only uses a single `scores` table to handle score records. A future version would include a `users` table containing at minimum `fname`, `lname`, and `fb_user_id`, fields , while removing `fb_user_id` from the `scores` table, and adding `user_id`. New score entries would include a new `select id from users where fb_user_id ...`, then an insert to the `scores` table with the acquired user_id. Final reports would include a left outer join with `users` on `user.id` = `scores.user_id`, or something similar.

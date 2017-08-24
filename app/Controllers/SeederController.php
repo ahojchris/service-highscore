@@ -12,97 +12,97 @@ use \DateTime;
 class SeederController extends Controller
 {
 
-	private function resetDB()
-	{
-		$this->model = new Models\ScoreModel;
-		$this->model->truncate();
-	}
-	
-	public function generateTestData($params = ['num' => 1000000])
-	{
-		//validate  user_score defined
-		if (!isset($params['num']) || !Validator::notEmpty($params['num'])) {
-			$this->view->error('num is required');
+    private function resetDB()
+    {
+        $this->model = new Models\ScoreModel;
+        $this->model->truncate();
+    }
 
-			return false;
-		}
+    public function generateTestData($params = ['num' => 1000000])
+    {
+        //validate  user_score defined
+        if (!isset($params['num']) || !Validator::notEmpty($params['num'])) {
+            $this->view->error('num is required');
 
-		if (!Validator::numbersOnly($params['num'])) {
-			$this->view->error('num must be an interger');
+            return false;
+        }
 
-			return false;
-		} else {
+        if (!Validator::numbersOnly($params['num'])) {
+            $this->view->error('num must be an interger');
 
-			$num_rows = $params['num'];
+            return false;
+        } else {
 
-			//TODO filter $params['num'] a bit more
-			$this->model = new Models\ScoreModel;
+            $num_rows = $params['num'];
 
-			$this->resetDB();
+            //TODO filter $params['num'] a bit more
+            $this->model = new Models\ScoreModel;
 
-			$chunk_size = 1000;
-			$uid_limit  = $chunk_size / rand(30, 70);
-			$uids       = $this->generateFbUserIdArray($uid_limit);
+            $this->resetDB();
 
-			$score['min'] = 1;
-			$score['max'] = 1000000;
+            $chunk_size = 1000;
+            $uid_limit  = $chunk_size / rand(30, 70);
+            $uids       = $this->generateFbUserIdArray($uid_limit);
 
-			$rows = [];
-			for ($i = 0; $i < $num_rows; $i++) {
+            $score['min'] = 1;
+            $score['max'] = 1000000;
 
-				if (count($rows) > $chunk_size - 1) {
-					$this->model->insertScoreMany($rows);
-					$rows      = [];
-					$uid_limit = $chunk_size / rand(30, 70);
-					$uids      = $this->generateFbUserIdArray($uid_limit);
+            $rows = [];
+            for ($i = 0; $i < $num_rows; $i++) {
 
-				}
+                if (count($rows) > $chunk_size - 1) {
+                    $this->model->insertScoreMany($rows);
+                    $rows      = [];
+                    $uid_limit = $chunk_size / rand(30, 70);
+                    $uids      = $this->generateFbUserIdArray($uid_limit);
 
-				$seconds     = rand(1, 90 * 24 * 60 * 60); //90 days
-				$date_format = 'Y-m-d H:i:s';
+                }
 
-				//more efficient but uses old date functions
-				//$timestamp = mt_rand(time() - $seconds, time());
-				//$rows[] = [$uids[rand(0, $uid_limit - 1)], $i + 1, date($date_format, $timestamp)];
-				$date   = new DateTime("-$seconds seconds");
-				$rows[] = [$uids[rand(0, $uid_limit - 1)], $this->generateRandomScore($score['min'], $score['max']), $date->format($date_format)];
-			}
-			if (count($rows) > 0) {
-				//final insert for remaining rows in final chunk
-				$this->model->insertScoreMany($rows);
-			}
+                $seconds     = rand(1, 90 * 24 * 60 * 60); //90 days
+                $date_format = 'Y-m-d H:i:s';
 
-			$this->view->data(true);
+                //more efficient but uses old date functions
+                //$timestamp = mt_rand(time() - $seconds, time());
+                //$rows[] = [$uids[rand(0, $uid_limit - 1)], $i + 1, date($date_format, $timestamp)];
+                $date   = new DateTime("-$seconds seconds");
+                $rows[] = [$uids[rand(0, $uid_limit - 1)], $this->generateRandomScore($score['min'], $score['max']), $date->format($date_format)];
+            }
+            if (count($rows) > 0) {
+                //final insert for remaining rows in final chunk
+                $this->model->insertScoreMany($rows);
+            }
 
-			return true;
-		}
+            $this->view->data(true);
 
-	}
+            return true;
+        }
+
+    }
 
 
-	private function generateRandomScore($min, $max)
-	{
-		//skew a bit to the right
-		$discounted_max = floor($max / (rand(1, 2)));
+    private function generateRandomScore($min, $max)
+    {
+        //skew a bit to the right
+        $discounted_max = floor($max / (rand(1, 2)));
 
-		return Helper::generatePureBellNumber($min, $discounted_max, $discounted_max / 10);
-	}
+        return Helper::generatePureBellNumber($min, $discounted_max, $discounted_max / 10);
+    }
 
-	private function generateFbUserIdArray($size)
-	{
-		$ids = [];
-		for ($i = 0; $i < $size; $i++) {
-			$ids[] = $this->generateFbUserId();
-		}
+    private function generateFbUserIdArray($size)
+    {
+        $ids = [];
+        for ($i = 0; $i < $size; $i++) {
+            $ids[] = $this->generateFbUserId();
+        }
 
-		return $ids;
-	}
+        return $ids;
+    }
 
-	private function generateFbUserId()
-	{
-		$num = rand(1, 999999999);
+    private function generateFbUserId()
+    {
+        $num = rand(1, 999999999);
 
-		return '1' . str_pad($num, 14, "0", STR_PAD_LEFT);
-	}
+        return '1' . str_pad($num, 14, "0", STR_PAD_LEFT);
+    }
 
 }

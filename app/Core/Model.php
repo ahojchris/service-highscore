@@ -7,19 +7,19 @@ use \PDO;
 class Model
 {
 
-	protected $db;
+    protected $db;
 
-	function __construct()
-	{
+    function __construct()
+    {
 
-		$params = [
-			PDO::ATTR_EMULATE_PREPARES   => false,
-			PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ];
+        $params = [
+            PDO::ATTR_EMULATE_PREPARES   => false,
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ];
 
-		$dsn = 'mysql:host=' . Config::get('DB_HOST') . ';dbname=' . Config::get('DB_NAME') . ';charset=utf8mb4';
-		$this->db = new PDO($dsn, Config::get('DB_USER'), Config::get('DB_PASSWORD'), $params);
+        $dsn      = 'mysql:host=' . Config::get('DB_HOST') . ';dbname=' . Config::get('DB_NAME') . ';charset=utf8mb4';
+        $this->db = new PDO($dsn, Config::get('DB_USER'), Config::get('DB_PASSWORD'), $params);
 
-	}
+    }
 
 }

@@ -15,7 +15,7 @@ Route::connect(new Request);
 
 //TODO Fix how we handle handle controller args
 //TODO Create users table and integrate with scores
-
+//TODO eb display_errors Off
 
 
 /*

@@ -24,9 +24,9 @@ class DefaultController extends Controller
 
     function index()
     {
-        $this->view->templateHomePage();
         //var_dump(func_num_args());
         //var_dump(func_get_args());
+        $this->view->templateHomePage();
 
     }
 }

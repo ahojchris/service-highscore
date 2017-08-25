@@ -24,6 +24,7 @@ class Request
         $this->path       = trim($this->parsed_url['path'], '/');
 
         $this->path_params = explode('/', $this->path);
+        array_walk($this->path_params, [$this, 'filterSanitizeString']);
         array_walk($this->path_params, [$this, 'filterPath']);
 
         $this->post_vars = $_POST;
@@ -37,7 +38,7 @@ class Request
      */
     private function filterPath(&$string)
     {
-        return preg_replace("/[^A-Za-z0-9_\-\/]/", '', $string);
+        $string = preg_replace("/[^A-Za-z0-9_\-\/]/", '', $string);
     }
 
     /**
@@ -47,7 +48,7 @@ class Request
      */
     private function filterSanitizeString(&$string)
     {
-        return filter_var($string, FILTER_SANITIZE_STRING);
+        $string = filter_var($string, FILTER_SANITIZE_STRING);
     }
 
 }

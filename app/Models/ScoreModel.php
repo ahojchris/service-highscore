@@ -114,28 +114,28 @@ class ScoreModel extends Model
     }
 
     /**
-     * @param DateTime $date1
-     * @param DateTime $date2
+     * @param DateTime $date_earlier
+     * @param DateTime $date_later
      * @param          $limit
      *
      * @return array
      */
-    function getPlayersMostImproved(DateTime $date1, DateTime $date2, $limit)
+    function getPlayersMostImproved(DateTime $date_earlier, DateTime $date_later, $limit)
     {
         $date_format = 'Y-m-d H:i:s';
 
-        $subquery_1 = "SELECT fb_user_id, MAX(score) AS highscore FROM scores WHERE created_at > :d2a GROUP BY fb_user_id ORDER BY highscore DESC";
-        $subquery_2 = "SELECT fb_user_id, MIN(score) AS highscore FROM scores WHERE created_at > :d1 AND created_at < :d2b GROUP BY fb_user_id ORDER BY highscore ASC";
+        $subquery_1 = "SELECT fb_user_id, MAX(score) AS highscore FROM scores WHERE created_at > :date_later_a GROUP BY fb_user_id ORDER BY highscore DESC";
+        $subquery_2 = "SELECT fb_user_id, MAX(score) AS highscore FROM scores WHERE created_at > :date_earlier AND created_at < :date_later_b GROUP BY fb_user_id ORDER BY highscore DESC";
 
-        $sql = "SELECT Period1.fb_user_id, Period1.highscore AS highscore_this_week, Period2.highscore AS highscore_last_week, (Period1.highscore - Period2.highscore) AS delta ";
-        $sql .= "FROM ($subquery_1) Period1 ";
-        $sql .= "INNER JOIN ($subquery_2) Period2 ";
-        $sql .= "ON Period1.fb_user_id = Period2.fb_user_id ORDER BY delta DESC LIMIT :limit";
+        $sql = "SELECT Later.fb_user_id, Earlier.highscore AS highscore_last_week, Later.highscore AS highscore_this_week, (Later.highscore - Earlier.highscore) AS delta ";
+        $sql .= "FROM ($subquery_1) Later ";
+        $sql .= "INNER JOIN ($subquery_2) Earlier ";
+        $sql .= "ON Later.fb_user_id = Earlier.fb_user_id ORDER BY delta DESC LIMIT :limit";
 
         $handle = $this->db->prepare($sql);
-        $handle->bindValue(':d1', $date1->format($date_format), PDO::PARAM_STR);
-        $handle->bindValue(':d2a', $date2->format($date_format), PDO::PARAM_STR);
-        $handle->bindValue(':d2b', $date2->format($date_format), PDO::PARAM_STR);
+        $handle->bindValue(':date_earlier', $date_earlier->format($date_format), PDO::PARAM_STR);
+        $handle->bindValue(':date_later_a', $date_later->format($date_format), PDO::PARAM_STR);
+        $handle->bindValue(':date_later_b', $date_later->format($date_format), PDO::PARAM_STR);
         $handle->bindValue(':limit', $limit, PDO::PARAM_INT);
         $handle->execute();
 

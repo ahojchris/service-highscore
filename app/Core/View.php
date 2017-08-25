@@ -6,12 +6,20 @@ namespace App\Core;
  * Class View
  * @package App\Core
  */
-class View
+abstract class View
 {
+
+    /**
+     * @param null $data
+     *
+     * @return mixed
+     */
+    abstract public function output($data = null);
+
     /**
      * @param null $data
      */
-    function outputJson($data = null)
+    protected function outputJson($data = null)
     {
         header('Content-Type: application/json');
         $json_data = json_encode($data);
@@ -22,16 +30,11 @@ class View
     /**
      * @param null $data
      */
-    function data($data = null)
+    protected function outputHtml($data = null)
     {
-        $this->outputJson(['data' => $data]);
+        header('Content-Type: text/html');
+        echo $data;
+        exit;
     }
 
-    /**
-     * @param null $error
-     */
-    function error($error = null)
-    {
-        $this->outputJson(['error' => $error]);
-    }
 }

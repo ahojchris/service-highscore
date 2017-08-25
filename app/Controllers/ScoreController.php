@@ -27,14 +27,14 @@ class ScoreController extends Controller
 
         //validate  signed_request defined
         if (!isset($params['signed_request']) || !Validator::notEmpty($params['signed_request'])) {
-            $this->view->error('signed_request is required');
+            $this->view->outputError('signed_request is required');
 
             return false;
         }
 
         //validate  user_score defined
         if (!isset($params['user_score']) || !Validator::notEmpty($params['user_score'])) {
-            $this->view->error('user_score is required');
+            $this->view->outputError('user_score is required');
 
             return false;
         }
@@ -43,7 +43,7 @@ class ScoreController extends Controller
         $fb_signed_req_decoded = $fb_signed_req->parse();
 
         if (!($fb_signed_req_decoded !== null)) {
-            $this->view->error('signed_request is invalid');
+            $this->view->outputError('signed_request is invalid');
 
             return false;
         } else {
@@ -51,12 +51,12 @@ class ScoreController extends Controller
         }
 
         if (!Validator::notEmpty($params['user_score'])) {
-            $this->view->error('user_score is required');
+            $this->view->outputError('user_score is required');
 
             return false;
         } else {
             if (!Validator::numbersOnly($params['user_score'])) {
-                $this->view->error('user_score must be an interger');
+                $this->view->outputError('user_score must be an interger');
 
                 return false;
             } else {
@@ -66,7 +66,7 @@ class ScoreController extends Controller
 
         $this->model = new Models\ScoreModel;
         $result      = $this->model->insertScore($output['user_id'], $output['user_score']);
-        $this->view->data($result);
+        $this->view->outputData($result);
 
         return true;
     }

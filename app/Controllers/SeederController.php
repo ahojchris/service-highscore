@@ -30,13 +30,13 @@ class SeederController extends Controller
     {
         //validate  user_score defined
         if (!isset($params['num']) || !Validator::notEmpty($params['num'])) {
-            $this->view->error('num is required');
+            $this->view->outputError('num is required');
 
             return false;
         }
 
         if (!Validator::numbersOnly($params['num'])) {
-            $this->view->error('num must be an interger');
+            $this->view->outputError('num must be an interger');
 
             return false;
         } else {
@@ -80,7 +80,7 @@ class SeederController extends Controller
                 $this->model->insertScoreMany($rows);
             }
 
-            $this->view->data(true);
+            $this->view->outputData(true);
 
             return true;
         }

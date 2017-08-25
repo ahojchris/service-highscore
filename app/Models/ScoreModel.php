@@ -125,9 +125,9 @@ class ScoreModel extends Model
         $date_format = 'Y-m-d H:i:s';
 
         $subquery_1 = "SELECT fb_user_id, MAX(score) AS highscore FROM scores WHERE created_at > :d2a GROUP BY fb_user_id ORDER BY highscore DESC";
-        $subquery_2 = "SELECT fb_user_id, MAX(score) AS highscore FROM scores WHERE created_at > :d1 AND created_at < :d2b GROUP BY fb_user_id ORDER BY highscore DESC";
+        $subquery_2 = "SELECT fb_user_id, MIN(score) AS highscore FROM scores WHERE created_at > :d1 AND created_at < :d2b GROUP BY fb_user_id ORDER BY highscore ASC";
 
-        $sql = "SELECT Period1.fb_user_id, Period1.highscore AS highscore_last_week, Period2.highscore AS highscore_this_week, (Period2.highscore - Period1.highscore) AS delta ";
+        $sql = "SELECT Period1.fb_user_id, Period1.highscore AS highscore_this_week, Period2.highscore AS highscore_last_week, (Period1.highscore - Period2.highscore) AS delta ";
         $sql .= "FROM ($subquery_1) Period1 ";
         $sql .= "INNER JOIN ($subquery_2) Period2 ";
         $sql .= "ON Period1.fb_user_id = Period2.fb_user_id ORDER BY delta DESC LIMIT :limit";

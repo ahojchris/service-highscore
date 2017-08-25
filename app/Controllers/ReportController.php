@@ -25,7 +25,7 @@ class ReportController extends Controller
         //List the top 10 players who improved their score over the course of the week
         $data['players_improved'] = $this->model->getPlayersMostImproved(new DateTime("last sunday - 7 days"), new DateTime("last sunday"), $limit);
 
-        $this->view->data($data);
+        $this->view->outputData($data);
     }
 
     function totals()
@@ -34,7 +34,7 @@ class ReportController extends Controller
         $data['players_today'] = $this->model->getUniquePlayersSince(new DateTime("today"));
         $data['players_total'] = $this->model->getUniquePlayersAllTime();
 
-        $this->view->data($data);
+        $this->view->outputData($data);
     }
 
     /**
@@ -46,7 +46,7 @@ class ReportController extends Controller
         $this->model         = new Models\ScoreModel;
         $data['players_top'] = $this->model->getPlayersTop($limit);
 
-        $this->view->data($data);
+        $this->view->outputData($data);
     }
 
     function improved()
@@ -55,7 +55,7 @@ class ReportController extends Controller
         $this->model              = new Models\ScoreModel;
         $data['players_improved'] = $this->model->getPlayersMostImproved(new DateTime("last sunday - 7 days"), new DateTime("last sunday"), $limit);
 
-        $this->view->data($data);
+        $this->view->outputData($data);
     }
 
 }

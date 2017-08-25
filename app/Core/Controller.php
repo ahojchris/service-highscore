@@ -2,11 +2,12 @@
 
 namespace App\Core;
 
+use App\Views\JsonView;
 /**
  * Class Controller
  * @package App\Core
  */
-class Controller
+abstract class Controller
 {
 
     public $model;
@@ -17,11 +18,7 @@ class Controller
      */
 	function __construct()
     {
-        $this->view = new View();
-    }
-
-    function index()
-    {
+        $this->view = new JsonView();
     }
 
 

@@ -8,7 +8,7 @@ use \PDO;
  * Class Model
  * @package App\Core
  */
-class Model
+abstract class Model
 {
 
     protected $db;
